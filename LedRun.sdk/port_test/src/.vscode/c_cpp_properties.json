@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:/01_Xilinx_FPGA/LedRun/LedRun.sdk/port_test_bsp/microblaze_0/include",
+                "C:/Xilinx/SDK/2017.4/gnu/microblaze/nt/lib/gcc/microblaze-xilinx-elf/6.2.0/include",
+                "C:/Xilinx/SDK/2017.4/gnu/microblaze/nt/lib/gcc/microblaze-xilinx-elf/6.2.0/include-fixed",
+                "C:/Xilinx/SDK/2017.4/gnu/microblaze/nt/microblaze-xilinx-elf/include",
+                "D:/01_Xilinx_FPGA/LedRun/LedRun.sdk/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/LLVM/bin/gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,29 @@
+21:55:50 **** Build of configuration Debug for project port_test_bsp_xiic_repeated_start_example_1 ****
+make all 
+'Building file: ../src/xiic_repeated_start_example.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xiic_repeated_start_example.o" -I../../port_test_bsp/microblaze_0/include -mno-xl-reorder -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mcpu=v10.0 -mno-xl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/xiic_repeated_start_example.d" -MT"src/xiic_repeated_start_example.o" -o "src/xiic_repeated_start_example.o" "../src/xiic_repeated_start_example.c"
+../src/xiic_repeated_start_example.c: In function 'WriteData':
+../src/xiic_repeated_start_example.c:257:6: warning: variable 'BusBusy' set but not used [-Wunused-but-set-variable]
+  int BusBusy;
+      ^~~~~~~
+../src/xiic_repeated_start_example.c: In function 'ReadData':
+../src/xiic_repeated_start_example.c:341:6: warning: variable 'BusBusy' set but not used [-Wunused-but-set-variable]
+  int BusBusy;
+      ^~~~~~~
+'Finished building: ../src/xiic_repeated_start_example.c'
+' '
+'Building target: port_test_bsp_xiic_repeated_start_example_1.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -L../../port_test_bsp/microblaze_0/lib -mlittle-endian -mxl-barrel-shift -mxl-pattern-compare -mcpu=v10.0 -mno-xl-soft-mul -Wl,--no-relax -Wl,--gc-sections -o "port_test_bsp_xiic_repeated_start_example_1.elf"  ./src/xiic_repeated_start_example.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: port_test_bsp_xiic_repeated_start_example_1.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size port_test_bsp_xiic_repeated_start_example_1.elf  |tee "port_test_bsp_xiic_repeated_start_example_1.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  13404	    396	   3408	  17208	   4338	port_test_bsp_xiic_repeated_start_example_1.elf
+'Finished building: port_test_bsp_xiic_repeated_start_example_1.elf.size'
+' '
+
+21:55:51 Build Finished (took 938ms)
+

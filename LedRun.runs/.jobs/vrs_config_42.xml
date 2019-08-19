@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="LedRun_axi_fifo_mm_s_0_0_synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/LedRun_axi_fifo_mm_s_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="LedRun_axi_intc_0_0_synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/LedRun_axi_intc_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="LedRun_xlconcat_0_0_synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/LedRun_xlconcat_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado">
+		<Parent Id="LedRun_axi_fifo_mm_s_0_0_synth_1"/>
+		<Parent Id="LedRun_axi_intc_0_0_synth_1"/>
+		<Parent Id="LedRun_xlconcat_0_0_synth_1"/>
+	</Run>
+	<Run Id="impl_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/impl_1" FlowId="Vivado_Implementation" FromStepId="init_design" ToStepId="write_bitstream">
+		<Parent Id="synth_1"/>
+		<Parent Id="LedRun_axi_fifo_mm_s_0_0_synth_1"/>
+		<Parent Id="LedRun_axi_intc_0_0_synth_1"/>
+		<Parent Id="LedRun_xlconcat_0_0_synth_1"/>
+	</Run>
+</Runs>
+

@@ -1,0 +1,321 @@
+/*
+ * main.c
+ *
+ *  Created on: 2019闁跨喐鏋婚幏锟�7闁跨喐鏋婚幏锟�8闁跨喐鏋婚幏锟�
+ *      Author: Administrator
+ */
+#include "xparameters.h"
+#include "xil_printf.h"
+#include "SysInitialize.h"
+//#include "xuartlite_l.h"
+
+
+/************************** Constant Definitions *****************************/
+
+
+void DelayS(int leddelay)
+{
+	int Delay;
+	for (Delay = 0; Delay < leddelay; Delay++);
+	return;
+}
+
+//右移31位，从最高为开始和1做&运算，得到每一位的二进制数值
+void bin_print(u32 num)
+{
+    char count = 31;//值为31
+    u8 bitnum;
+    u8 byte;
+    while (count>=0) {
+        bitnum = num>>count; //除去符号位，从最高位开始得到每一位
+        byte = bitnum & 1; //和1进行与运算得到每一位的二进制数
+        xil_printf("%d",byte);
+
+        if (count%4==0) {//每隔四位打印空格
+            xil_printf(" ");
+        }
+
+        count--;
+    }
+    xil_printf("\n");
+
+}
+
+
+/*****************************************************************************
+main
+******************************************************************************/
+int main(void)
+{
+
+	u8 ledflag = 0x01;
+	u8 ledcode = 0x01;
+	int Status;
+	u32 Index;
+
+	u32 CR;
+	u32 TFO;
+	u32 DTR;
+	u32 SR;
+	u32 ADR;
+
+	u8 sendbuf[TEST_BUFFER_SIZE];
+	u8 recvbuf1[TEST_BUFFER_SIZE];
+
+    /*****************************************************************************
+    system initial and judge if the Initialization success
+    ******************************************************************************/
+	Status = Sys_Initialize();
+    if (Status !=XST_SUCCESS){
+        xil_printf("System Initialize failer !!! \n");
+        xil_printf("Status = %d !!! /n",Status);
+    }
+    else
+    {
+    	xil_printf("System Initialize success!!! \n");
+    }
+	//Intc_Initializeo
+	//Status = XIntc_Initialize(&Intc0,INTC_0_DEVICE_ID);
+	//Status = XIntc_Connect(&Intc0,UART_0_VEC_ID,(XInterruptHandler)Uart1Handler,(void *)0);
+	//Status = XIntc_Start(&Intc0, XIN_REAL_MODE);
+	//XIntc_Enable(&Intc0, UART_0_VEC_ID);//intc enable interrupt for uart
+
+	//XUartLite_EnableInterrupt(&Uart1);  //uart enable interrupt for it self
+	//microblaze_enable_interrupts();
+
+	for (Index = 0; Index < 100; Index++) {
+		sendbuf[Index] = 55+Index;
+		recvbuf1[Index] = 0;
+	}
+
+	TransmitComplete = 1;
+	IIC0.Stats.TxErrors = 0;
+
+	Status = XIic_Start(&IIC0);
+	if (Status != XST_SUCCESS) {
+		xil_printf("XIic_Start failed\n");
+		return XST_FAILURE;
+	}
+	xil_printf("XIic_Start XST_SUCCESS \n");
+
+	while (1)
+	{
+
+	/* ==============================led run================================= */
+		if (ledcode == 0x80){
+			//ledcode = 0x01;
+			//xil_printf("<<Run Down\r\n");
+			ledflag = 0x02;
+		}
+		else if(ledcode == 0x01) {
+			//ledcode = ledcode << 1;
+			//xil_printf(">>Run Down\r\n");
+			ledflag = 0x01;
+		}
+
+		if (ledflag == 0x01){
+			ledcode = ledcode << 1;
+			//xil_printf("<<%d",ledcode);
+		}
+		else if (ledflag == 0x02){
+			ledcode = ledcode >> 1;
+			//xil_printf(">>%d",ledcode);
+		}
+		XGpio_DiscreteWrite(&Gpio_led, LED_CHANNEL, ledcode);
+		DelayS(LED_DELAY);
+
+	/* ==========================uart2 test================================ */
+		//xil_printf("Successfully ran Gpio_led\r\n");
+		//XUartLite_Send(&Uart1, sendbuf, TEST_BUFFER_SIZE);
+		XUartLite_Send(&Uart2, sendbuf, TEST_BUFFER_SIZE);
+
+	/* ==========================IIC_axi test================================ */
+
+
+
+
+			//#define XIIC_DGIER_OFFSET	0x1C  /**< Global Interrupt Enable Register */
+			//#define XIIC_IISR_OFFSET	0x20  /**< Interrupt Status Register */
+			//#define XIIC_IIER_OFFSET	0x28  /**< Interrupt Enable Register */
+			//#define XIIC_RESETR_OFFSET	0x40  /**< Reset Register */
+			//#define XIIC_CR_REG_OFFSET	0x100 /**< Control Register */
+			//#define XIIC_SR_REG_OFFSET	0x104 /**< Status Register */
+			//#define XIIC_DTR_REG_OFFSET	0x108 /**< Data Tx Register */
+			//#define XIIC_DRR_REG_OFFSET	0x10C /**< Data Rx Register */
+			//#define XIIC_ADR_REG_OFFSET	0x110 /**< Address Register */
+			//#define XIIC_TFO_REG_OFFSET	0x114 /**< Tx FIFO Occupancy */
+			//#define XIIC_RFO_REG_OFFSET	0x118 /**< Rx FIFO Occupancy */
+			//#define XIIC_TBA_REG_OFFSET	0x11C /**< 10 Bit Address reg */
+			//#define XIIC_RFD_REG_OFFSET	0x120 /**< Rx FIFO Depth reg */
+			//#define XIIC_GPO_REG_OFFSET	0x124 /**< Output Register */
+
+
+			CR   = XIic_ReadReg(IIC0.BaseAddress,  XIIC_CR_REG_OFFSET);
+			TFO  = XIic_ReadReg(IIC0.BaseAddress,  XIIC_TFO_REG_OFFSET);
+			DTR  = XIic_ReadReg(IIC0.BaseAddress,  XIIC_DTR_REG_OFFSET);
+			SR   = XIic_ReadReg(IIC0.BaseAddress,  XIIC_SR_REG_OFFSET);
+			ADR  = XIic_ReadReg(IIC0.BaseAddress,  XIIC_ADR_REG_OFFSET);
+
+			xil_printf("======================================================\n");
+			xil_printf("XIIC_CR_REG_OFFSET  = ");
+			bin_print(CR);
+			xil_printf("XIIC_TFO_REG_OFFSET = ");
+			bin_print(TFO);
+			xil_printf("XIIC_SR_REG_OFFSET  = ");
+			bin_print(SR);
+			xil_printf("XIIC_ADR_REG_OFFSET = ");
+			bin_print(ADR);
+			xil_printf("Tx_fifo  = %x\n",DTR);
+
+
+			Status = XIic_MasterSend(&IIC0, sendbuf, TEST_BUFFER_SIZE);
+			xil_printf("XIic_MasterSend\n");
+			if (Status != XST_SUCCESS) {
+				xil_printf("XIic_MasterSend failed\n");
+				return XST_FAILURE;
+			}
+
+
+
+//			/*
+//			 * Wait till the transmission is completed.
+//			 */
+//			while ((TransmitComplete) || (XIic_IsIicBusy(&IIC0) == TRUE)) {
+//
+//				//xil_printf("enter while\n");
+//				/*
+//				 * This condition is required to be checked in the case where we
+//				 * are writing two consecutive buffers of data to the EEPROM.
+//				 * The EEPROM takes about 2 milliseconds time to update the data
+//				 * internally after a STOP has been sent on the bus.
+//				 * A NACK will be generated in the case of a second write before
+//				 * the EEPROM updates the data internally resulting in a
+//				 * Transmission Error.
+//				 */
+//				DelayS(LED_DELAY);
+//				xil_printf("======================================================\n");
+//				xil_printf("RepeatedStarts = %d  \n",IIC0.Stats.RepeatedStarts);
+//				xil_printf("BusBusy = %d  \n",IIC0.Stats.BusBusy);
+//				xil_printf("SendBytes = %d  \n",IIC0.Stats.SendBytes);
+//				xil_printf("TxErrors = %d  \n",IIC0.Stats.TxErrors);
+//				xil_printf("IicInterrupts = %d  \n",IIC0.Stats.IicInterrupts);
+//
+//
+//
+//
+//				if (IIC0.Stats.TxErrors != 0) {
+//					xil_printf("IIC0.Stats.TxErrors != 0\n");
+//
+//					/*
+//					 * Enable the IIC device.
+//					 */
+//					Status = XIic_Start(&IIC0);
+//					if (Status != XST_SUCCESS) {
+//						xil_printf("XIic_Start failed - while\n");
+//						return XST_FAILURE;
+//
+//					}
+//
+//
+//					if (!XIic_IsIicBusy(&IIC0)) {
+//						xil_printf("XIic_IsIicBusy\n");
+//						/*
+//						 * Send the Data.
+//						 */
+//						Status = XIic_MasterSend(&IIC0,
+//								sendbuf,
+//								TEST_BUFFER_SIZE);
+//						if (Status == XST_SUCCESS) {
+//							IIC0.Stats.TxErrors = 0;
+//							xil_printf("IIC0.Stats.TxErrors = 0 \n");
+//						}
+//						else {
+//						}
+//					}
+//				}
+//			}
+//
+//			/*
+//			 * Stop the IIC device.
+//			 */
+//			Status = XIic_Stop(&IIC0);
+//			if (Status != XST_SUCCESS) {
+//				xil_printf("XIic_Stop failed ");
+//				return XST_FAILURE;
+//			}
+
+
+	}
+
+	xil_printf("Successfully ran Gpio_led Example\r\n");
+	return XST_SUCCESS;
+}
+
+	/************************** uart interrupt *****************************/
+
+//
+//
+//
+//			XUartLite_SendByte(XPAR_UARTLITE_0_BASEADDR, tx_index);
+//			if (tx_index == 50)
+//			{
+//				tx_index = 0;
+//			}
+//			else
+//			{
+//				tx_index = tx_index + 1;
+//			}
+//
+//
+//
+//
+
+	/************************** polling uart *****************************/
+	//		 while ((XUartLite_IsReceiveEmpty(XPAR_UARTLITE_0_BASEADDR)) == FALSE)
+	//		 {
+	//		 	for (u8 i = 0; i < 99; i++)
+	//		 	{
+	//		 		recvbuf1[i] = recvbuf1[i+1];
+	//		 	}
+	//		 	recvbuf1[99] = XUartLite_RecvByte(XPAR_UARTLITE_0_BASEADDR);
+	//		 	//XUartLite_SendByte(XPAR_UARTLITE_0_BASEADDR,recvbuf1[99]);
+	//		 }
+
+	//		 if (recvbuf1[0]==0x55 && recvbuf1[1]==0xaa && recvbuf1[98]==0x33 && recvbuf1[99]==0xcc)
+	//		 {
+	//		 	for (u8 i = 0; i < 100; i++)
+	//		 	{
+	//		 		XUartLite_SendByte(XPAR_UARTLITE_0_BASEADDR,recvbuf1[i]);
+	//		 		recvbuf1[i] = 0x00;
+	//		 	}
+	//		 }
+
+
+//void Uart1Handler(XUartLite *InstancePtr)
+//{
+////	u8 buff;
+////	//xil_printf("%d\n",255);
+////	buff = XUartLite_RecvByte(XPAR_UARTLITE_0_BASEADDR);
+////  	XUartLite_SendByte(XPAR_UARTLITE_0_BASEADDR, buff);
+//
+//	 while ((XUartLite_IsReceiveEmpty(XPAR_UARTLITE_0_BASEADDR)) == FALSE)
+//	 {
+//	 	for (u8 i = 0; i < 99; i++)
+//	 	{
+//	 		recvbuf1[i] = recvbuf1[i+1];
+//	 	}
+//	 	recvbuf1[99] = XUartLite_RecvByte(XPAR_UARTLITE_0_BASEADDR);
+//	 	//XUartLite_SendByte(XPAR_UARTLITE_0_BASEADDR,recvbuf1[99]);
+//	 }
+//
+//	 if (recvbuf1[0]==0x55 && recvbuf1[1]==0xaa && recvbuf1[98]==0x33 && recvbuf1[99]==0xcc)
+//	 {
+//	 	for (u8 i = 0; i < 100; i++)
+//	 	{
+//	 		XUartLite_SendByte(XPAR_UARTLITE_0_BASEADDR,recvbuf1[i]);
+//	 		recvbuf1[i] = 0x00;
+//	 	}
+//	 }
+//
+//}
+

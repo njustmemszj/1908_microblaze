@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;port_test/src/iic_master_zj.c&apos; to &apos;func.c&apos;" description="Rename resource &apos;iic_master_zj.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/iic_master_zj.c" name="func.c" stamp="1565926466508" updateReferences="true"/>
+</session>

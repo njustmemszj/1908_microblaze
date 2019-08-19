@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="LedRun_xbar_0_synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/LedRun_xbar_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="LedRun_axi_uart16550_0_0_synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/LedRun_axi_uart16550_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="LedRun_axi_uartlite_0_0_synth_1" LaunchDir="D:/01_Xilinx_FPGA/LedRun/LedRun.runs/LedRun_axi_uartlite_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+</Runs>
+

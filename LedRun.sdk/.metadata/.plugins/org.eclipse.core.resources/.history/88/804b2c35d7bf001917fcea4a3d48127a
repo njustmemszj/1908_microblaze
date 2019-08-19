@@ -1,0 +1,15 @@
+/*
+ * func.h
+ *
+ *  Created on: 2019Äê8ÔÂ16ÈÕ
+ *      Author: Administrator
+ */
+
+#ifndef SRC_FUNC_H_
+#define SRC_FUNC_H_
+
+#include "xiic.h"
+#include "xiic_i.h"
+#include "xiic.h"
+
+#endif /* SRC_FUNC_H_ */

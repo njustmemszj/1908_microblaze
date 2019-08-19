@@ -1,0 +1,13 @@
+verilog xil_defaultlib --include "../../../../LedRun.srcs/sources_1/bd/LedRun/ipshared/4868" --include "../../../../LedRun.srcs/sources_1/bd/LedRun/ipshared/ec67/hdl" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/sim/LedRun.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_clk_wiz_1_0/LedRun_clk_wiz_1_0_clk_wiz.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_clk_wiz_1_0/LedRun_clk_wiz_1_0.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_xlconstant_0_1/sim/LedRun_xlconstant_0_1.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_xbar_0/sim/LedRun_xbar_0.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_lmb_bram_1/sim/LedRun_lmb_bram_1.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_xadc_wiz_0_0/LedRun_xadc_wiz_0_0.v" \
+"../../../../LedRun.srcs/sources_1/bd/LedRun/ip/LedRun_xlconcat_0_0/sim/LedRun_xlconcat_0_0.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

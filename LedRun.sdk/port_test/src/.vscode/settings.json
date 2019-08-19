@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "xparameters.h": "c",
+        "xgpio.h": "c",
+        "InterruptHandler.C": "cpp",
+        "sysinitialize.h": "c",
+        "xgpio_l.h": "c",
+        "xil_io.h": "c"
+    },
+    "C_Cpp.dimInactiveRegions": false
+
+}
